@@ -186,7 +186,6 @@ Use this checklist to ensure the Huffman Compressor & Decompressor is working co
 ### Error Handling
 - [ ] No file uploaded → error message displayed
 - [ ] Corrupted `.huff` file → proper error message displayed
-- [ ] Large files (>100MB) prompt a warning
 
 ### Performance & Metrics
 - [ ] Time taken for compression/decompression is displayed
