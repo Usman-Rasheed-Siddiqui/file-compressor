@@ -143,7 +143,7 @@ http://127.0.0.1:8000/
 ## 📦 Requirements
 
 - **Prerequisites**
-    - Python 3.10 or Python 3.11
+    - Python 3.10 or Python 3.11+
     - django
     - bitarray
     - Any other from requirements.txt
