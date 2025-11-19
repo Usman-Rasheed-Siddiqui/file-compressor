@@ -1,0 +1,212 @@
+
+{% extends "main.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+
+    body {
+        background-color: #6a5acd;;
+        margin: 0;
+    }
+
+    .main-card {
+        width: 90vw;
+        max-width: 1500px;
+        min-height: 70vh;
+        height: 80vh;
+        margin: 30px auto;
+        border-radius: 12px;
+        background: #ffffffff;
+        box-shadow:
+            5px 5px 15px rgba(0, 0, 0, 0.1),
+            -5px -5px 15px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        overflow: visible;
+    }
+
+    .upload-wrapper {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        margin-left: 40px;
+        width: 95%;
+        height: auto;
+    }
+
+    .upload-box {
+        border: 7px dashed #6a5acd;
+        border-radius: 12px;
+        padding: 70px;
+        width: 80%;
+        max-height: 35vh;
+        text-align: center;
+        cursor: pointer;
+        transiton: 0.3s;
+        backgroun-color: #f9f9ff;
+    }
+
+    .upload-box:hover {
+        background-color: #eee9ff;
+        border-color: #b6b1e7ff;
+    }
+
+    .upload-box img {
+        width: 65px;
+        opacity: 0.9;
+        margin-bottom: 10px;
+    }
+
+    .upload-box span {
+        font-size: 17px;
+        font-weight: 600;
+        color: #4c3cb8;
+    }
+
+    .custom-btn {
+        background-color: #6a5acd;
+        color: white;
+        border: none;
+        font-weight: 600;
+        border-radius: 8px;
+        padding: 10px 18px;
+        transition: 0.3s ease-in-out; 
+    }
+
+    .custom-btn-2 {
+        background-color: #0b6c10ff;
+        color: white;
+        border: none;
+        font-weight: 600;
+        border-radius: 8px;
+        padding: 10px 18px;
+        transition: 0.3s ease-in-out; 
+    }
+
+    .custom-btn-2:hover {
+    background-color: #28a745;  
+    color: white;
+    }
+
+</style>
+
+<div class="main-card">
+    <form action = "{% url 'compressor' %}" method = "POST" enctype = "multipart/form-data">
+        {% csrf_token %} 
+        
+        <div class="upload-wrapper">
+        <label class="upload-box" for="fileUpload">
+            <img src="{% static 'upload_image.png' %}" alt="Upload icon">
+            <span>Click to add file here</span>
+        </label>
+        </div>
+
+        <input type="file" class="form-control" id="fileUpload" name="file" style = "width: 50%; margin: 30px auto; display: block;">
+        <div style="display: flex; justify-content: center; margin-top: 15px;">
+            <button type="submit" class="btn btn-outline-info custom-btn" style="width: 200px;">Compress</button>
+        </div>
+    </form>
+
+    <div class="info" style="max-width: 500px; margin: 30px auto; padding: 15px;">
+        {% if ratio %}
+        
+        <div style="display: flex; justify-content: center;">
+            <button type="button" class="btn btn-success custom-btn-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Download Compressed File
+            </button>
+        </div>
+
+        {% endif %}
+    </div>
+</div>
+
+<!-- Modal to display results -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                {% if ratio > 0 %}
+                    <h5 class="modal-title">Compressed Successfully ✅</h5>
+                {% else %}
+                    <h5 class="modal-title">Compressed Unsuccessful ❌</h5>
+                {% endif %}
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>File Name: {{ name }}</strong></li>
+                    <li class="list-group-item">Original Size: {{ original_size }}</li>
+                    <li class="list-group-item">Compressed Size: {{ compressed_size }}</li>
+                    <li class="list-group-item">Time Taken: {{ time_taken|floatformat:2 }} secs</li>
+                    <li class="list-group-item"><strong>Saved: {{ ratio }}%</strong>
+                    <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar bg-success" style="width: {{ratio}}%"></div>
+                    </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer justify-content-center" style="margin-top: 10px;">
+                    <a href="{% url 'download_compressed' %}" class="btn btn-success custom-btn-2">
+                        Download Compressed File
+                    </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--  Toast to show pop up messages -->
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  {# For Django messages #}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Note</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    {{message}}
+                </div>
+            </div>
+
+        {% endfor %}
+    {% endif %}
+
+    {% if form.non_field.errors %}
+        {% for error in form.non_field.errors %}
+            <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Error</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    {{ error }}
+                </div>
+            </div>
+
+        {% endfor %}
+    {% endif %}
+
+</div>
+
+
+<!-- Java Script to make the toast work -->
+<script>
+const toastTrigger = document.getElementById('liveToastBtn')
+
+if (toastTrigger) {
+  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+  toastTrigger.addEventListener('click', () => {
+    toastBootstrap.show()
+  })
+}
+</script>
+
+{% endblock %}

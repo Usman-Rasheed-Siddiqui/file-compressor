@@ -6,19 +6,40 @@
 {% block content %}
 
 <style>
-    .card_text_container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 40px;
+
+    body {
+        background-color: #6a5acd;;
+        margin: 0;
     }
 
-    .card_bmp_container {
+    .main-card {
+        width: 90vw;
+        max-width: 1500px;
+        min-height: 70vh;
+        max-height: 80vh;
+        margin: 30px auto;
+        border-radius: 12px;
+        background: #ffffffff;
+        box-shadow:
+            5px 5px 15px rgba(0, 0, 0, 0.1),
+            -5px -5px 15px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        overflow: hidden;
+    }
+
+    .card_compress_container,
+    .card_decompress_container {
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: 20px;
+        max-height: 450px;
     }
+
 
     .emboss-card {
         border-radius: 12px;
@@ -34,55 +55,52 @@
         color: white;
         border: none;
         font-weight: 600;
+        padding: 12px 24px;
         border_radius: 8px;
         padding: 10px 18px;
         transition: 0.3s ease-in-out; 
+        min-width: 150px;
     }
 
 </style>
-
-<div class = 'card_text_container'>
-    <div class="card mb-3 emboss-card" style="max-width: 630px;">
-        <div class="row g-0">
-            <div class="col-md-4">
-                <img src="{% static 'text_image.png' %}" class="img-fluid rounded-start" alt="...">
+<div class="main-card">
+    <div class = 'card_compress_container'>
+        <div class="card mb-3 emboss-card" style="max-width: 630px; margin-top: 10px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="{% static 'compress_image.png' %}" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Compress Files, Save Space!</h5>
+                        <p class="card-text">
+                            Easily shrink your files in seconds! Compress text, code, or documents efficiently, save storage space, and keep your data safe without any loss.
+                        </p>
+                        <a href="{% url 'compressor' %}" class="btn btn-outline-info custom-btn" style="margin-left: 90px;">Compress</a>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title">Make Text Files Smaller — or Get Them Back!</h5>
-                    <p class="card-text">
-                        Save storage and share files faster — compress your text files in one click, or decompress them anytime to restore the original content.
-                    </p>
-                    <a href="{% url 'text_compressor' %}" class="btn btn-outline-info custom-btn">Compress</a>
-                    <a href="{% url 'text_decompressor' %}" class="btn btn-outline-info custom-btn" style="margin-left: 120px;">Decompress</a>
+        </div>
+    </div>
+
+
+    <div class = 'card_decompress_container'>
+        <div class="card mb-3 emboss-card" style="max-width: 630px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="{% static 'decompress_image.png' %}" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Restore Your Files Instantly!</h5>
+                        <p class="card-text">
+                            Quickly bring your compressed files back to their original form. Recover text, code, or documents effortlessly and get your data ready to use in no time.
+                        </p>
+                        <a href="{% url 'decompressor' %}" class="btn btn-outline-info custom-btn" style="margin-left: 90px;">Decompress</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
-<div class = 'card_bmp_container'>
-    <div class="card mb-3 emboss-card" style="max-width: 630px;">
-        <div class="row g-0">
-            <div class="col-md-4">
-                <img src="{% static 'bmp_image.png' %}" class="img-fluid rounded-start" alt="...">
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title">Make BMP Files Smaller — or Get Them Back!</h5>
-                    <p class="card-text">
-                        Convert large BMP images into smaller files — compress to save space or decompress to get back full-quality images whenever you need.
-                    </p>
-                    <a href="{% url 'bmp_compressor' %}" class="btn btn-outline-info custom-btn">Compress</a>
-                    <a href="{% url 'bmp_decompressor' %}" class="btn btn-outline-info custom-btn" style="margin-left: 120px;">Decompress</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
 {% endblock %}

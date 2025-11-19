@@ -5,8 +5,9 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('text_compressor/', views.compressor_text, name='text_compressor'),
-    path('text_decompressor/', views.decompressor_text, name='text_decompressor'),
-    path('bmp_compressor/', views.compressor_bmp, name='bmp_compressor'),
-    path('bmp_decompressor/', views.decompressor_bmp, name='bmp_decompressor'),
+    path('compressor/', views.compressor, name='compressor'),
+    path('decompressor/', views.decompressor, name='decompressor'),
+
+    path('download_compressed/', views.download_compressed, name='download_compressed'),
+    path('download_decompressed/', views.download_decompressed, name='download_decompressed'),
 ]
