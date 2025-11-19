@@ -73,7 +73,7 @@ cmd
 git clone https://github.com/Usman-Rasheed-Siddiqui/file-compressor.git
 ```
   Note: In case you don't have git downloaded, download the zip file of the repository and extract it in your desired folder.
-        Then open cmd and follow the following steps.
+        Navigate to the extracted file. Then open cmd and follow the following steps.
 
 3. Navigate to the directory
 ```bash
